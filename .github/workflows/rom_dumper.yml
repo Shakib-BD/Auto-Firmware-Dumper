@@ -150,7 +150,7 @@ jobs:
         env.UP == 'Okay'
       run: |
         cd /home/Auto-Dumper/DumprX/out
-        tar -cJvf dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz --ignore-failed-read -W none system vendor *.img *.txt *.sha1 README.md
+        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz system vendor *.img *.txt *.sha1 README.md
         mv -v dump_${{ env.DB }}_${{ env.DCN }}_part1.tar.xz /home/Auto-Dumper
         sudo rm -rf system
         sudo rm -rf vendor
@@ -158,7 +158,7 @@ jobs:
         sudo rm -rf *.txt
         sudo rm -rf *.sha1
         sudo rm -rf *.img
-        tar -cJvf dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz --ignore-failed-read -W none *
+        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz *
         mv -v dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz /home/Auto-Dumper
         cd /home/Auto-Dumper
         sudo rm -rf DumprX
