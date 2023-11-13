@@ -158,8 +158,12 @@ jobs:
         sudo rm -rf *.txt
         sudo rm -rf *.sha1
         sudo rm -rf *.img
-        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz *
+        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz system_ext product
         mv -v dump_${{ env.DB }}_${{ env.DCN }}_part2.tar.xz /home/Auto-Dumper
+        sudo rm -rf system_ext
+        sudo rm -rf product
+        tar cJvf dump_${{ env.DB }}_${{ env.DCN }}_part3.tar.xz *
+        mv -v dump_${{ env.DB }}_${{ env.DCN }}_part3.tar.xz /home/Auto-Dumper
         cd /home/Auto-Dumper
         sudo rm -rf DumprX
         
@@ -196,6 +200,23 @@ jobs:
            TWRP Tree repo: ${{ env.TWT }}
            LineageOS Tree repo: ${{ env.LOT }}
            Part: 2
+
+    - name: Uploading Compressed ROM Dump (Part3)
+      if: |
+        env.UP == 'Okay'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: | 
+          /home/Auto-Dumper/dump_${{ env.DB }}_${{ env.DCN }}_part3.tar.xz
+        name: ROM dump for ${{ env.DB }} ${{ env.DCN }} - Part3 - ${{ github.run_id }}
+        tag_name: ${{ env.DCN }}_${{ github.run_id }}_part3
+        body: |
+           Device: ${{ env.DCN }}
+           Brand: ${{ env.DB }}
+           Android version: ${{ env.AV }}
+           TWRP Tree repo: ${{ env.TWT }}
+           LineageOS Tree repo: ${{ env.LOT }}
+           Part: 3
 
     - name: Uploading LineageOS Device Tree
       if: |
